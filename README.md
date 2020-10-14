@@ -1,4 +1,4 @@
-# webappjfbase
+# webappjf Public Repo
 
 Application construite à partir d'un Dockerfile
 

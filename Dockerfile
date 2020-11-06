@@ -74,6 +74,7 @@ RUN apk add postgresql \
   && echo "host all  all    0.0.0.0/0  md5" >> /var/lib/postgresql/data/pg_hba.conf \
   && echo "listen_addresses = '*'" >> /var/lib/postgresql/data/postgresql.conf
 
+USER postgres
 COPY pgdb/jverne.csv /var/lib/pgsql/jverne.csv
 RUN su - postgres -c "pg_ctl start -D /var/lib/postgresql/data -l /var/lib/postgresql/log.log && psql --command \"ALTER USER postgres WITH ENCRYPTED PASSWORD 'bonjour';\" && psql --command \"CREATE DATABASE jvernedb;\" && psql jvernedb --command \"CREATE TABLE book(jvid SERIAL PRIMARY KEY,ftitle VARCHAR(200),etitle VARCHAR(200),author VARCHAR(100),year DECIMAL(4));\" && psql jvernedb --command \"COPY book(ftitle,etitle,author,year) FROM '/var/lib/pgsql/jverne.csv' DELIMITER ';' CSV HEADER\";"
 
